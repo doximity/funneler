@@ -1,0 +1,51 @@
+PATH
+  remote: .
+  specs:
+    funneler (1.0)
+      jwt
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (8.2.1)
+    coderay (1.1.0)
+    diff-lcs (1.2.5)
+    jwt (1.5.4)
+    method_source (0.8.2)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.3.0)
+      byebug (~> 8.0)
+      pry (~> 0.10)
+    rake (10.5.0)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
+    slop (3.6.0)
+    timecop (0.8.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.11)
+  funneler!
+  pry-byebug
+  rake (~> 10.0)
+  rspec (~> 3.0)
+  timecop
+
+BUNDLED WITH
+   1.13.4
