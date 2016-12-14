@@ -9,9 +9,11 @@ RSpec.describe Funneler::FunnelFactory do
     it 'returns a new funnel with the routes generated for the funnel type' do
       funnel = factory.build(route_generator: route_generator,
                              params: {},
+                             meta: { name: 'Santa' },
                              expires_in_days: 42)
       expect(funnel.data).to eq('routes' => ['a', 'b'],
-                                'expires_in_days' => 42)
+                                'expires_in_days' => 42,
+                                'meta' => {name: 'Santa'})
     end
   end
 end

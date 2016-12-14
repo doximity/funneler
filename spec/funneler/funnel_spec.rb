@@ -117,6 +117,14 @@ RSpec.describe Funneler::Funnel do
     end
   end
 
+  context '#meta' do
+    it 'exposes the application specific meta data' do
+      data = { 'meta' => {foo: :bar} }
+      funnel = Funneler::Funnel.new(data)
+      expect(funnel.meta).to eq(foo: :bar)
+    end
+  end
+
   def verify_url(url, route:, current_page_index:)
     expect(url).to match(/^#{route}\?funnel_token=[\w\-_]+\.[\w\-_]+\.[\w\-_]/)
     new_funnel = funnel_from_url(url)
