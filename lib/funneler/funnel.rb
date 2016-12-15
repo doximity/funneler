@@ -31,6 +31,10 @@ module Funneler
       @url_cache[current_page_index]
     end
 
+    def meta
+      data['meta'] || {}
+    end
+
     def current_page_index
       data.fetch('current_page_index', 0)
     end
@@ -76,4 +80,3 @@ module Funneler
     end
   end
 end
-

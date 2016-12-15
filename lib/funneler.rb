@@ -30,14 +30,17 @@ module Funneler
       raise InvalidTokenError, "Invalid token '#{token}': #{e.message}"
     end
 
-    def build(route_generator:, params: {}, expires_in_days: nil)
+    def build(route_generator:, params: {}, expires_in_days: nil, meta: {})
       Funneler::FunnelFactory.build(route_generator: route_generator,
                                    params: params,
+                                   meta: meta,
                                    expires_in_days: expires_in_days)
     end
 
-    def from_routes(routes: {})
-      Funnel.new('routes' => routes, 'current_page_index' => 0)
+    def from_routes(routes: {}, meta: {})
+      Funnel.new('routes' => routes,
+                 'current_page_index' => 0,
+                 'meta' => meta)
     end
 
     def from_url(url:)

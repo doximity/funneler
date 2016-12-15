@@ -56,7 +56,18 @@ RSpec.describe Funneler do
         new_funnel = Funneler.from_url(url: funnel.next_page)
         expect(new_funnel.data).to include('routes' => routes)
         expect(new_funnel.data).to include('current_page_index' => 1)
+        expect(funnel.data).to include('meta' => {})
       end
+    end
+  end
+
+  context ".from_routes" do
+    let(:routes) { ['/a', '/b'] }
+    it 'builds a funnel with the given routes and meta' do
+      funnel = Funneler.from_routes(routes: routes, meta: {name: 'Ryan'})
+      expect(funnel.data).to include('routes' => routes)
+      expect(funnel.data).to include('current_page_index' => 0)
+      expect(funnel.data).to include('meta' => {name: 'Ryan'})
     end
   end
 end
