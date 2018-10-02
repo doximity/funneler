@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Funneler do
-  before { ENV["jwt_key"] = "abc123" }
+  before { ENV["JWT_KEY"] = "abc123" }
 
   let(:configuration) { Funneler.configuration }
   before { allow(Funneler).to receive(:configuration).and_return(configuration) }

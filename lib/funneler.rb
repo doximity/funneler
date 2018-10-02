@@ -17,7 +17,7 @@ module Funneler
 
     def configuration
       @configuration ||= Funneler::Configuration.new(
-        jwt_key: ENV.fetch("jwt_key"),
+        jwt_key: ENV.fetch("JWT_KEY"),
         jwt_algorithm: "HS256"
       )
     end
