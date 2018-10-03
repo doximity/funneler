@@ -5,6 +5,7 @@ RSpec.describe Funneler::TokenHandler do
 
   let(:jwt_key) { 'secret_key' }
   let(:jwt_algorithm) { 'HS256' }
+  let(:none_algorithm) { 'none' }
 
   let(:configuration) {
     Funneler::Configuration.new( jwt_key:jwt_key,
@@ -25,6 +26,14 @@ RSpec.describe Funneler::TokenHandler do
       data, headers = JWT.decode(token, jwt_key, true, algorithm: jwt_algorithm)
       expect(data['foo']).to eq('bar')
       expect(headers).to eq("typ"=>"JWT", "alg"=>jwt_algorithm)
+    end
+
+    it 'fails if the wrong algorithm is used' do
+      token = handler.generate_token(data: {foo: :bar})
+      expect(token).to_not be_nil
+
+      expect { JWT.decode(token, jwt_key, true, algorithm: none_algorithm) }
+        .to raise_error(JWT::IncorrectAlgorithm)
     end
   end
 
