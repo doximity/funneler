@@ -16,10 +16,7 @@ module Funneler
     attr_reader :configuration
 
     def configuration
-      @configuration ||= Funneler::Configuration.new(
-        jwt_key: ENV.fetch("JWT_KEY"),
-        jwt_algorithm: "HS256"
-      )
+      @configuration ||= Funneler::Configuration.new
     end
 
     def configure
