@@ -1,11 +1,12 @@
 module Funneler
   class Funnel
 
-    attr_reader :data
+    attr_reader :data, :current_page_index
 
-    def initialize(data = {})
+    def initialize(data = {}, current_page_index)
       @data = data
       @url_cache = Hash.new {|h, key| h[key] = generate_page_for_index(key) }
+      @current_page_index = current_page_index
     end
 
     def first_page(additional_params = {})
@@ -33,10 +34,6 @@ module Funneler
 
     def meta
       data['meta'] || {}
-    end
-
-    def current_page_index
-      data.fetch('current_page_index', 0)
     end
 
     def token
