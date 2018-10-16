@@ -60,7 +60,7 @@ RSpec.describe Funneler::Funnel do
       data = { 'routes' => routes, 'current_page_index' => 42 }
       url = Funneler::Funnel.new(data).first_page(foo: :bar, a: 3)
       verify_url(url, route: 'first', current_page_index: 0)
-      expect(url).to match(/^first\?funnel_token=[\w\-_]+\.[\w\-_]+\.[\w\-_]+&foo=bar&a=3/)
+      expect(url).to match(/^first\?funnel_token=[\w\-_]+\.[\w\-_]+\.[\w\-_]+&funnel_index=0&foo=bar&a=3/)
     end
   end
 

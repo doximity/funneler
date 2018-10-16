@@ -18,7 +18,7 @@ RSpec.describe Funneler do
 
   context ".configure" do
     it 'allows funneler to be configured via a block syntax' do
-      expect(configuration.jwt_key).to_eq "abc123"
+      expect(configuration.jwt_key).to eq nil
       Funneler.configure do |config|
         config.jwt_key = 'foobar'
         config.jwt_algorithm = 'HS256'
