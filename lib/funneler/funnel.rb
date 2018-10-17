@@ -3,9 +3,9 @@ module Funneler
 
     attr_reader :data, :current_page_index
 
-    def initialize(data = {}, current_page_index = 0)
+    def initialize(data = {}, current_page_index = nil)
       @data = data
-      @current_page_index = data.fetch("current_page_index", nil) || current_page_index
+      @current_page_index = current_page_index || data.fetch("current_page_index", nil) || 0
       @url_cache = Hash.new {|h, key| h[key] = generate_page_for_index(key) }
     end
 
