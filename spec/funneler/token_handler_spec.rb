@@ -25,7 +25,7 @@ RSpec.describe Funneler::TokenHandler do
 
       data, headers = JWT.decode(token, jwt_key, true, algorithm: jwt_algorithm)
       expect(data['foo']).to eq('bar')
-      expect(headers).to eq("typ"=>"JWT", "alg"=>jwt_algorithm)
+      expect(headers).to eq("alg"=>jwt_algorithm)
     end
 
     it 'fails if the wrong algorithm is used' do
