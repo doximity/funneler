@@ -1,10 +1,11 @@
 module Funneler
   class Funnel
 
-    attr_reader :data
+    attr_reader :data, :current_page_index
 
-    def initialize(data = {})
+    def initialize(data = {}, current_page_index = nil)
       @data = data
+      @current_page_index = current_page_index || data.fetch("current_page_index", nil) || 0
       @url_cache = Hash.new {|h, key| h[key] = generate_page_for_index(key) }
     end
 
@@ -35,10 +36,6 @@ module Funneler
       data['meta'] || {}
     end
 
-    def current_page_index
-      data.fetch('current_page_index', 0)
-    end
-
     def token
       TokenHandler.generate_token(data: data)
     end
@@ -49,7 +46,8 @@ module Funneler
       return if bad_index?(index)
 
       token = TokenHandler.generate_token(data: data.merge('current_page_index' => index))
-      add_params_to_url(routes[index], "funnel_token" => token)
+      path  = add_params_to_url(routes[index], "funnel_token" => token )
+      add_params_to_url(path, "funnel_index" => index)
     end
 
     def add_params_to_url(path, new_params)
@@ -65,11 +63,11 @@ module Funneler
     end
 
     def next_index
-      current_page_index + 1
+      current_page_index.to_i + 1
     end
 
     def previous_index
-      index = current_page_index - 1
+      index = current_page_index.to_i - 1
       index < 0 ? 0 : index
     end
 

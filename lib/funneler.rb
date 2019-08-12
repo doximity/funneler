@@ -23,9 +23,9 @@ module Funneler
       yield(configuration)
     end
 
-    def from_token(token:)
+    def from_token(token:, current_page_index: nil)
       data = Funneler::TokenHandler.extract_data_from(token)
-      Funneler::Funnel.new(data)
+      Funneler::Funnel.new(data, current_page_index)
     rescue JWT::DecodeError => e
       raise InvalidTokenError, "Invalid token '#{token}': #{e.message}"
     end

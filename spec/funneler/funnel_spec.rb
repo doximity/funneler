@@ -56,11 +56,11 @@ RSpec.describe Funneler::Funnel do
       verify_url(url, route: 'first', current_page_index: 0)
     end
 
-    it 'allows for appending extra parameters to the url' do
+    it 'allows for appending extra parameters to the url, including the current funnel_index' do
       data = { 'routes' => routes, 'current_page_index' => 42 }
       url = Funneler::Funnel.new(data).first_page(foo: :bar, a: 3)
       verify_url(url, route: 'first', current_page_index: 0)
-      expect(url).to match(/^first\?funnel_token=[\w\-_]+\.[\w\-_]+\.[\w\-_]+&foo=bar&a=3/)
+      expect(url).to match(/^first\?funnel_token=[\w\-_]+\.[\w\-_]+\.[\w\-_]+&funnel_index=0&foo=bar&a=3/)
     end
   end
 
@@ -127,6 +127,7 @@ RSpec.describe Funneler::Funnel do
 
   def verify_url(url, route:, current_page_index:)
     expect(url).to match(/^#{route}\?funnel_token=[\w\-_]+\.[\w\-_]+\.[\w\-_]/)
+    expect(url).to include("&funnel_index=#{current_page_index}")
     new_funnel = funnel_from_url(url)
     expect(new_funnel.data).to include('current_page_index' => current_page_index)
   end

@@ -3,7 +3,6 @@ require 'spec_helper'
 RSpec.describe Funneler do
 
   let(:configuration) { Funneler.configuration }
-
   before { allow(Funneler).to receive(:configuration).and_return(configuration) }
 
   it 'has a version number' do
@@ -18,7 +17,7 @@ RSpec.describe Funneler do
 
   context ".configure" do
     it 'allows funneler to be configured via a block syntax' do
-      expect(configuration.jwt_key).to be_nil
+      expect(configuration.jwt_key).to eq nil
       Funneler.configure do |config|
         config.jwt_key = 'foobar'
         config.jwt_algorithm = 'HS256'
