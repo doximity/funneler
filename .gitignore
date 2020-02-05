@@ -1,0 +1,10 @@
+.rspec_status
+/.ruby-version
+/*.gem
+/.bundle/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/vendor/bundle/

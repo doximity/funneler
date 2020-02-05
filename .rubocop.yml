@@ -1,0 +1,16 @@
+---
+Metrics/BlockLength:
+  Exclude:
+    - "./**/*_spec*.rb"
+    - "./*.gemspec"
+    - "./spec/*_helper*.rb"
+    - "./tasks/ci.rake"
+    - "Gemfile"
+
+Metrics/ModuleLength:
+  Exclude:
+    - "./**/*_spec*.rb"
+
+Metrics/MethodLength:
+  Exclude:
+    - "./**/*_spec*.rb"
