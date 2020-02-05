@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe Funneler::Configuration do
-
   let(:two_weeks) { 14 }
   let(:forty_two_weeks) { 42 * 7 }
 

@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 module Funneler
   class Funnel
-
     attr_reader :data, :current_page_index
 
     def initialize(data = {}, current_page_index = nil)
       @data = data
-      @current_page_index = current_page_index || data.fetch("current_page_index", nil) || 0
-      @url_cache = Hash.new {|h, key| h[key] = generate_page_for_index(key) }
+      @current_page_index = current_page_index || data.fetch('current_page_index', nil) || 0
+      @url_cache = Hash.new { |h, key| h[key] = generate_page_for_index(key) }
     end
 
     def first_page(additional_params = {})
@@ -46,13 +47,13 @@ module Funneler
       return if bad_index?(index)
 
       token = TokenHandler.generate_token(data: data.merge('current_page_index' => index))
-      path  = add_params_to_url(routes[index], "funnel_token" => token )
-      add_params_to_url(path, "funnel_index" => index)
+      path  = add_params_to_url(routes[index], 'funnel_token' => token)
+      add_params_to_url(path, 'funnel_index' => index)
     end
 
     def add_params_to_url(path, new_params)
       uri = URI.parse(path)
-      params = URI.decode_www_form(uri.query || "").concat(new_params.to_a)
+      params = URI.decode_www_form(uri.query || '').concat(new_params.to_a)
       uri.query = URI.encode_www_form(params)
 
       uri.to_s

@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe Funneler::Funnel do
-
-  let(:routes) { ['first', 'second', 'third'] }
-  let(:configuration) {
+  let(:routes) { %w[first second third] }
+  let(:configuration) do
     Funneler::Configuration.new(jwt_key: 'foobar', jwt_algorithm: 'HS256')
-  }
+  end
 
   before { allow(Funneler).to receive(:configuration).and_return(configuration) }
 
-  context "#next_page" do
+  context '#next_page' do
     it 'returns nil when there are no routes' do
       expect(Funneler::Funnel.new.next_page).to eq(nil)
     end
@@ -27,7 +28,7 @@ RSpec.describe Funneler::Funnel do
     end
   end
 
-  context "#previous_page" do
+  context '#previous_page' do
     it 'returns nil when no default is specified and there are no routes' do
       expect(Funneler::Funnel.new.previous_page).to eq(nil)
     end
@@ -45,7 +46,7 @@ RSpec.describe Funneler::Funnel do
     end
   end
 
-  context "#first_page" do
+  context '#first_page' do
     it 'returns nil when no routes are specified' do
       expect(Funneler::Funnel.new.first_page).to eq(nil)
     end
@@ -88,7 +89,7 @@ RSpec.describe Funneler::Funnel do
   end
 
   context '#is_last_page?' do
-    let(:routes) { ['first', 'second', 'third'] }
+    let(:routes) { %w[first second third] }
     it 'is true when there are no routes' do
       expect(Funneler::Funnel.new.is_last_page?).to eq(true)
     end
@@ -99,19 +100,19 @@ RSpec.describe Funneler::Funnel do
     end
 
     it 'is false when the index is not beyond the total routes' do
-      data = { 'routes' => routes, 'current_page_index' => 1  }
+      data = { 'routes' => routes, 'current_page_index' => 1 }
       funnel = Funneler::Funnel.new(data)
       expect(funnel.is_last_page?).to eq(false)
     end
 
     it 'is true when the index is on the last page' do
-      data = { 'routes' => [:a, :b], 'current_page_index' => 2 }
+      data = { 'routes' => %i[a b], 'current_page_index' => 2 }
       funnel = Funneler::Funnel.new(data)
       expect(funnel.is_last_page?).to eq(true)
     end
 
     it 'is true when the index exceeds the # of routes' do
-      data = { 'routes' => [:a, :b], 'current_page_index' => 42 }
+      data = { 'routes' => %i[a b], 'current_page_index' => 42 }
       funnel = Funneler::Funnel.new(data)
       expect(funnel.is_last_page?).to eq(true)
     end
@@ -119,7 +120,7 @@ RSpec.describe Funneler::Funnel do
 
   context '#meta' do
     it 'exposes the application specific meta data' do
-      data = { 'meta' => {foo: :bar} }
+      data = { 'meta' => { foo: :bar } }
       funnel = Funneler::Funnel.new(data)
       expect(funnel.meta).to eq(foo: :bar)
     end
@@ -134,7 +135,7 @@ RSpec.describe Funneler::Funnel do
 
   def funnel_from_url(url)
     uri = URI.parse(url)
-    params = Hash[URI.decode_www_form(uri.query || "")]
+    params = Hash[URI.decode_www_form(uri.query || '')]
     token = params['funnel_token']
     Funneler.from_token(token: token)
   end
