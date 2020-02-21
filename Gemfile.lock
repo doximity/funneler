@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    funneler (1.2.1)
+    funneler (1.2.2)
       jwt
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
-    byebug (8.2.1)
+    byebug (8.2.5)
     coderay (1.1.0)
     diff-lcs (1.2.5)
     jaro_winkler (1.5.4)
