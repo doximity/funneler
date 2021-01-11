@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Funneler
   class FunnelFactory
-
     class << self
       def build(route_generator:, params: {}, expires_in_days: nil, meta: {})
         return nil unless route_generator.respond_to?(:call)

@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'jwt'
 
-require "funneler/version"
-require "funneler/configuration"
-require "funneler/token_handler"
-require "funneler/funnel"
-require "funneler/funnel_factory"
-require "funneler/controller_methods"
+require 'funneler/version'
+require 'funneler/configuration'
+require 'funneler/token_handler'
+require 'funneler/funnel'
+require 'funneler/funnel_factory'
+require 'funneler/controller_methods'
 
 module Funneler
   Error = Class.new(StandardError)
@@ -32,9 +34,9 @@ module Funneler
 
     def build(route_generator:, params: {}, expires_in_days: nil, meta: {})
       Funneler::FunnelFactory.build(route_generator: route_generator,
-                                   params: params,
-                                   meta: meta,
-                                   expires_in_days: expires_in_days)
+                                    params: params,
+                                    meta: meta,
+                                    expires_in_days: expires_in_days)
     end
 
     def from_routes(routes: {}, meta: {})
@@ -45,10 +47,9 @@ module Funneler
 
     def from_url(url:)
       uri = URI.parse(url)
-      params = Hash[URI.decode_www_form(uri.query || "")]
+      params = Hash[URI.decode_www_form(uri.query || '')]
       token = params['funnel_token']
       from_token(token: token)
     end
   end
-
 end

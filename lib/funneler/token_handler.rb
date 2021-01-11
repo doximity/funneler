@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jwt'
 
 module Funneler
@@ -19,8 +21,8 @@ module Funneler
       def extract_data_from(token)
         key = Funneler.configuration.jwt_key
         algorithm = Funneler.configuration.jwt_algorithm
-        verify = (algorithm != nil || key != nil)
-        data, _ = JWT.decode(token, key, verify, algorithm: algorithm)
+        verify = (!algorithm.nil? || !key.nil?)
+        data, = JWT.decode(token, key, verify, algorithm: algorithm)
         data
       end
     end

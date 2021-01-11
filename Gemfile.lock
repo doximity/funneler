@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    funneler (1.2.2)
+    funneler (1.2.3.pre1)
       jwt
 
 GEM
