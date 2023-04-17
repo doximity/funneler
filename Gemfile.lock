@@ -24,9 +24,12 @@ GEM
     pry-byebug (3.3.0)
       byebug (~> 8.0)
       pry (~> 0.10)
+    psych (5.1.0)
+      stringio
     rainbow (3.0.0)
     rake (10.5.0)
-    rdoc (6.2.1)
+    rdoc (6.5.0)
+      psych (>= 4.0.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -53,6 +56,7 @@ GEM
     sdoc (1.0.0)
       rdoc (>= 5.0)
     slop (3.6.0)
+    stringio (3.0.6)
     timecop (0.8.0)
     unicode-display_width (1.6.1)
 
