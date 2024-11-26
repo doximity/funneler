@@ -1,0 +1,32 @@
+version: 2
+registries:
+  rubygems-server-artifacts-dox-support-repository-gems:
+    type: rubygems-server
+    url: https://artifacts.dox.support/repository/gems
+    username: "${{secrets.RUBYGEMS_SERVER_ARTIFACTS_DOX_SUPPORT_REPOSITORY_GEMS_USERNAME}}"
+    password: "${{secrets.RUBYGEMS_SERVER_ARTIFACTS_DOX_SUPPORT_REPOSITORY_GEMS_PASSWORD}}"
+
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "13:00"
+  open-pull-requests-limit: 15
+  ignore:
+  - dependency-name: rubocop
+    versions:
+    - 1.10.0
+    - 1.11.0
+    - 1.12.0
+    - 1.12.1
+    - 1.9.1
+  - dependency-name: sdoc
+    versions:
+    - 2.0.3
+    - 2.0.4
+  - dependency-name: jwt
+    versions:
+    - 2.2.2
+  registries:
+  - rubygems-server-artifacts-dox-support-repository-gems
