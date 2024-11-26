@@ -53,7 +53,7 @@ GEM
     sdoc (1.0.0)
       rdoc (>= 5.0)
     slop (3.6.0)
-    timecop (0.8.0)
+    timecop (0.9.4)
     unicode-display_width (1.6.1)
 
 PLATFORMS
