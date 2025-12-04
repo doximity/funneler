@@ -53,9 +53,23 @@ RSpec.describe Funneler do
       Timecop.freeze do
         funnel = Funneler.from_routes(routes: routes)
         new_funnel = Funneler.from_url(url: funnel.next_page)
-        expect(new_funnel.data).to include('routes' => routes)
-        expect(new_funnel.data).to include('current_page_index' => 1)
-        expect(funnel.data).to include('meta' => {})
+        expect(new_funnel.routes).to eq(routes)
+        expect(new_funnel.current_page_index).to eq(1)
+        expect(funnel.meta).to eq({})
+      end
+    end
+
+    context "with step titles" do
+      let(:routes) { [['/a', 'First page'], ['/b', 'Second page']] }
+      it 'extracts the funnel from the funnel_token in the given url' do
+        Timecop.freeze do
+          funnel = Funneler.from_routes(routes: routes)
+          new_funnel = Funneler.from_url(url: funnel.next_page)
+          expect(funnel.routes).to eq(['/a', '/b'])
+          expect(funnel.titles).to eq(['First page', 'Second page'])
+          expect(new_funnel.current_page_index).to eq(1)
+          expect(funnel.meta).to eq({})
+        end
       end
     end
   end
@@ -63,10 +77,21 @@ RSpec.describe Funneler do
   context ".from_routes" do
     let(:routes) { ['/a', '/b'] }
     it 'builds a funnel with the given routes and meta' do
-      funnel = Funneler.from_routes(routes: routes, meta: {name: 'Ryan'})
-      expect(funnel.data).to include('routes' => routes)
-      expect(funnel.data).to include('current_page_index' => 0)
-      expect(funnel.data).to include('meta' => {name: 'Ryan'})
+      funnel = Funneler.from_routes(routes: routes, meta: { name: 'Ryan' })
+      expect(funnel.routes).to eq(routes)
+      expect(funnel.current_page_index).to eq(0)
+      expect(funnel.meta).to eq({ name: "Ryan" })
+    end
+
+    context "with step titles" do
+      let(:routes) { [['/a', 'First page'], ['/b', 'Second page']] }
+      it 'builds a funnel with the given routes and meta' do
+        funnel = Funneler.from_routes(routes: routes, meta: { name: 'Ryan' })
+        expect(funnel.routes).to eq(['/a', '/b'])
+        expect(funnel.titles).to eq(['First page', 'Second page'])
+        expect(funnel.current_page_index).to eq(0)
+        expect(funnel.meta).to eq({ name: "Ryan" })
+      end
     end
   end
 end

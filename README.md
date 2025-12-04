@@ -30,7 +30,30 @@ Or install it yourself as:
 2. Generate a token for a given set of routes, and route your user to
    the first page:
 ```ruby
-funnel = Funneler.build(routes: ['/welcome', '/setup', '/complete'])
+funnel = Funneler.from_routes(routes: ['/welcome', '/setup', '/complete'])
+redirect_to funnel.first_page
+```
+
+If you want create a progress bar for your funnel, you can specify the name for
+each step:
+```ruby
+funnel = Funneler.from_routes(
+  routes: [
+    ['/welcome', 'Welcome!'], ['/setup', 'Setup your account'], ['/complete', 'You are almost done!']
+  ]
+)
+redirect_to funnel.first_page
+```
+
+You can also use a route generator to encapsulate your route logic
+
+```ruby
+class CustomRouteGenerator
+  def self.call
+    ['/welcome', '/setup', '/complete']
+  end
+end
+funnel = Funneler.build(route_generator: CustomRouteGenerator)
 redirect_to funnel.first_page
 ```
 

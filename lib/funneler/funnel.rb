@@ -1,12 +1,14 @@
 module Funneler
   class Funnel
-
     attr_reader :data, :current_page_index
 
+    # Routes can be specified as either an array of routes (e.g ['/welcome',
+    # '/complete']), or an array of 2 items that include a route and a page
+    # title (e.g [['/welcome', 'Welcome!'], ['/complete', 'You are all done']])
     def initialize(data = {}, current_page_index = nil)
-      @data = data
-      @current_page_index = current_page_index || data.fetch("current_page_index", nil) || 0
-      @url_cache = Hash.new {|h, key| h[key] = generate_page_for_index(key) }
+      @data = unpack(data)
+      @current_page_index = (current_page_index || data.fetch("current_page_index", nil)).to_i
+      @url_cache = Hash.new { |h, key| h[key] = generate_page_for_index(key) }
     end
 
     def first_page(additional_params = {})
@@ -14,6 +16,30 @@ module Funneler
       return url if additional_params.empty?
 
       add_params_to_url(url, additional_params)
+    end
+
+    def next_step
+      titles[next_index]
+    end
+
+    def previous_step
+      return if previous_index == current_page_index
+
+      titles[previous_index]
+    end
+
+    def current_step
+      titles[current_page_index]
+    end
+
+    def stepper
+      titles.zip(Array.new(current_page_index) { |index| @url_cache[index] })
+    end
+
+    def progress_percentage
+      return 100 if routes.empty?
+
+      ((current_page_index + 1.0) / routes.length * 100).round
     end
 
     def next_page
@@ -33,7 +59,15 @@ module Funneler
     end
 
     def meta
-      data['meta'] || {}
+      data.fetch("meta", {})
+    end
+
+    def routes
+      data.fetch("routes", [])
+    end
+
+    def titles
+      data.fetch("titles", [])
     end
 
     def token
@@ -58,10 +92,6 @@ module Funneler
       uri.to_s
     end
 
-    def routes
-      data.fetch('routes', [])
-    end
-
     def next_index
       current_page_index.to_i + 1
     end
@@ -75,6 +105,29 @@ module Funneler
       index.nil? ||
         index < 0 ||
         index >= routes.length
+    end
+
+    # This method unpacks the routes and titles information from the original
+    # routes data
+    def unpack(data)
+      data["routes"] ||= []
+      data["titles"] ||= []
+
+      titles_from_routes = data["routes"].map { |route| Array(route)[1] }
+
+      # Fills the titles data from routes when it's present and there isn't
+      # already a title specified for that index
+      titles_from_routes.each.with_index do |title_from_route, index|
+        data["titles"][index] ||= title_from_route
+      end
+
+      # Remove title information from routes
+      data["routes"].map! { |route| Array(route)[0] }
+
+      # Remove any empty or incomplete data
+      data.delete_if { |key, value| value.class < Enumerable && (value.empty? || value.any?(&:nil?)) }
+
+      data
     end
   end
 end
