@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-12-08
+### Changed
+- Add ability to assign titles to each funnel step. Include helper methods to
+  `Funneler::Funnel` to generate a stepper and progress bar.
+
 ## [1.2.2] - 2020-02-21
 ### Changed
 - Release on RubyGems using gem-publisher CircleCI Orb
